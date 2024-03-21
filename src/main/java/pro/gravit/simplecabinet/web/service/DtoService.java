@@ -39,7 +39,7 @@ public class DtoService {
     private ObjectMapper objectMapper;
 
     public GroupProductDto toGroupProductDto(GroupProduct entity) {
-        return new GroupProductDto(entity.getId(), entity.getPrice(), entity.getCurrency(), entity.getDisplayName(), entity.getDescription(),
+        return new GroupProductDto(entity.getId(), entity.getServer(), entity.getPrice(), entity.getCurrency(), entity.getDisplayName(), entity.getDescription(),
                 entity.getPictureUrl() != null ? storageService.getUrl(entity.getPictureUrl()).toString() : null, entity.getExpireDays(), entity.isAvailable());
     }
 
