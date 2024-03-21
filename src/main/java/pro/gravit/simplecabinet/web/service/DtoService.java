@@ -44,7 +44,7 @@ public class DtoService {
     }
 
     public ItemProductDto toItemProductDto(ItemProduct entity) {
-        return new ItemProductDto(entity.getId(), entity.getPrice(), entity.getCurrency(), entity.getDisplayName(), entity.getDescription(),
+        return new ItemProductDto(entity.getId(), entity.getServer(), entity.getPrice(), entity.getCurrency(), entity.getDisplayName(), entity.getDescription(),
                 entity.getPictureUrl() != null ? storageService.getUrl(entity.getPictureUrl()).toString() : null,
                 entity.getLimitations());
     }
