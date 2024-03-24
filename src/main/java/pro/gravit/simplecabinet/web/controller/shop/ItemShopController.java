@@ -52,6 +52,18 @@ public class ItemShopController {
         product.setGroupName(request.groupName());
         productService.save(product);
     }
+    @PostMapping("/id/{id}/update")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public void update(@PathVariable long id, @RequestBody ItemShopController.ItemProductUpdateRequest request) {
+        var optional = productService.findById(id);
+        if (optional.isEmpty()) {
+            throw new EntityNotFoundException("Item not found");
+        }
+        var product = optional.get();
+        product.setDisplayName(request.displayName);
+        product.setDescription(request.description);
+        productService.save(product);
+    }
 
     @PostMapping("/id/{id}/setavailable")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
@@ -122,5 +134,7 @@ public class ItemShopController {
                                     String currency, String itemName, String itemExtra, String itemNbt,
                                     String itemCustom, int itemQuantity, String server, String pictureName) {
 
+    }
+    public record ItemProductUpdateRequest(String displayName, String description) {
     }
 }
