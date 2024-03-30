@@ -65,6 +65,18 @@ public class ItemShopController {
         productService.save(product);
     }
 
+    @PostMapping("/id/{id}/picup")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public void picup(@PathVariable long id, @RequestBody ItemShopController.ItemProductUpdatePictureRequest request) {
+        var optional = productService.findById(id);
+        if (optional.isEmpty()) {
+            throw new EntityNotFoundException("Item not found");
+        }
+        var product = optional.get();
+        product.setPictureUrl(request.pictureName);
+        productService.save(product);
+    }
+
     @PostMapping("/id/{id}/setavailable")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public void setAvailable(@PathVariable long id, @RequestBody GroupShopController.SetAvailableRequest request) {
@@ -136,5 +148,7 @@ public class ItemShopController {
 
     }
     public record ItemProductUpdateRequest(String displayName, String description) {
+    }
+    public record ItemProductUpdatePictureRequest(String pictureName) {
     }
 }
