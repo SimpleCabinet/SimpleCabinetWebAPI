@@ -89,6 +89,32 @@ public class GroupShopController {
         return dtoService.toGroupProductDto(product);
     }
 
+    @PutMapping("/id/{id}/updateall")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public GroupProductDto updateAll(@PathVariable long id, @RequestBody GroupProductCreateRequest request) {
+        var optional = groupProductService.findById(id);
+        if (optional.isEmpty()) {
+            throw new EntityNotFoundException("GroupProduct not found");
+        }
+        var product = optional.get();
+        product.setDisplayName(request.displayName);
+        product.setDescription(request.description);
+        product.setName(request.name);
+        product.setServer(request.server);
+        product.setWorld(request.world);
+        product.setContext(request.context);
+        product.setExpireDays(request.expireDays);
+        product.setLocal(request.local);
+        product.setPrice(request.price);
+        product.setCurrency(request.currency);
+        product.setStackable(request.stackable);
+        product.setLocalName(request.localName);
+        product.setPictureUrl(request.pictureName);
+        product.setAvailable(true);
+        groupProductService.save(product);
+        return dtoService.toGroupProductDto(product);
+    }
+
     @PostMapping("/id/{id}/setlimitations")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public void setLimitations(@PathVariable long id, @RequestBody SetLimitationsRequest request) {
