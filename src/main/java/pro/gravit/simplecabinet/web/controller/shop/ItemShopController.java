@@ -121,7 +121,7 @@ public class ItemShopController {
         return dtoService.toItemProductDto(product);
     }
 
-    @PutMapping("/id/{id}/updateAll")
+    @PutMapping("/id/{id}/updateall")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ItemProductDto updateAll(@PathVariable long id,@RequestBody CreateItemRequest request) {
         var optional = productService.findById(id);
