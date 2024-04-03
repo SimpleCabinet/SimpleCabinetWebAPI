@@ -57,7 +57,7 @@ public class UserTests {
         var setup = setupController.setup();
         adminToken = setup.accessToken();
         adminPassword = setup.password();
-        var result = authController.register(new AuthController.RegisterRequest("test", "test@example.com", "test123"));
+        var result = authController.register(new AuthController.RegisterRequest("test", "test@example.com", "test123",""));
         Assertions.assertNotNull(result);
         var id = result.id();
         Assertions.assertTrue(id > 0);

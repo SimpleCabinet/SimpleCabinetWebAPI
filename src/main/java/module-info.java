@@ -25,4 +25,6 @@ module simplecabinet {
     requires software.amazon.awssdk.core;
     requires software.amazon.awssdk.regions;
     requires software.amazon.awssdk.services.s3;
+    requires spring.data.jpa;
+    requires spring.security.config;
 }
