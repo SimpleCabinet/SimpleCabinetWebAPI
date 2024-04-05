@@ -34,6 +34,9 @@ public class News {
     public String getHeader() {
         return header;
     }
+    public String getPicture () {
+        return picture_url;
+    }
 
     public String getPicture () {
         return picture_url;

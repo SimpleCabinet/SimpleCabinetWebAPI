@@ -77,6 +77,7 @@ public class GroupShopController {
         return dtoService.toGroupProductDto(product);
     }
 
+
     @PostMapping("/buy")
     @PreAuthorize("isAuthenticated()")
     public GroupOrderDto buyGroup(@RequestBody BuyGroupRequest request) {

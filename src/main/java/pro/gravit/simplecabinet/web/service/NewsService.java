@@ -15,10 +15,12 @@ import java.util.Optional;
 public class NewsService {
     private NewsRepository newsRepository;
     private NewsCommentRepository commentRepository;
+
     @Autowired
     public NewsService(NewsRepository newsRepository, NewsCommentRepository commentRepository) {
         this.newsRepository = newsRepository;
         this.commentRepository = commentRepository;}
+
     public Optional<News> findByIdFetchComments(Long id) {
         return newsRepository.findByIdFetchComments(id);
     }

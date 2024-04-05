@@ -12,7 +12,6 @@ public class ItemProductDto {
     public final String pictureUrl;
     // Limitations
     public final Product.ProductLimitations limitations;
-
     public ItemProductDto(long id,String server, double price, String currency, String displayName, String description, String pictureUrl, Product.ProductLimitations limitations) {
         this.id = id;
         this.price = price;
