@@ -24,7 +24,7 @@ public class NewsController {
 
     @GetMapping("/page/{pageId}")
     public PageDto<NewsDto> getPage(@PathVariable int pageId) {
-        var list = newsService.findAll(PageRequest.of(pageId, 10, Sort.Direction.ASC));
+        var list = newsService.findAll(PageRequest.of(pageId, 10, Sort.Direction.ASC, "id"));
         return new PageDto<>(list.map(NewsDto::makeMiniNews));
     }
 
@@ -47,6 +47,7 @@ public class NewsController {
         news.setHeader(request.header);
         news.setMiniText(request.miniText);
         news.setText(request.text);
+        news.setPicture(request.pictureName);
         newsService.save(news);
     }
 
@@ -82,11 +83,12 @@ public class NewsController {
         news.setHeader(request.header);
         news.setMiniText(request.miniText);
         news.setText(request.text);
+        news.setPicture(request.pictureName);
         newsService.save(news);
         return NewsDto.makeMiniNews(news);
     }
 
-    public record NewsCreateRequest(String header, String miniText, String text) {
+    public record NewsCreateRequest(String header, String miniText, String text, String pictureName) {
     }
 
     public record NewsCommentCreateRequest(String text) {

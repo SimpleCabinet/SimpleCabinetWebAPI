@@ -64,6 +64,31 @@ public class ItemShopController {
         product.setAvailable(request.available());
         productService.save(product);
     }
+    @PostMapping("/id/{id}/update")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public void update(@PathVariable long id, @RequestBody ItemShopController.ItemProductUpdateRequest request) {
+        var optional = productService.findById(id);
+        if (optional.isEmpty()) {
+            throw new EntityNotFoundException("Item not found");
+        }
+        var product = optional.get();
+        product.setDisplayName(request.displayName);
+        product.setDescription(request.description);
+        productService.save(product);
+    }
+
+    @PostMapping("/id/{id}/picup")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public void picup(@PathVariable long id, @RequestBody ItemShopController.ItemProductUpdatePictureRequest request) {
+        var optional = productService.findById(id);
+        if (optional.isEmpty()) {
+            throw new EntityNotFoundException("Item not found");
+        }
+        var product = optional.get();
+        product.setPictureUrl(request.pictureName);
+        productService.save(product);
+    }
+
 
     @PostMapping("/id/{id}/setprice")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
@@ -96,7 +121,29 @@ public class ItemShopController {
         productService.save(product);
         return dtoService.toItemProductDto(product);
     }
-
+    @PutMapping("/id/{id}/updateall")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ItemProductDto updateAll(@PathVariable long id,@RequestBody CreateItemRequest request) {
+        var optional = productService.findById(id);
+        if (optional.isEmpty()) {
+            throw new EntityNotFoundException("GroupProduct not found");
+        }
+        var product = optional.get();
+        product.setDisplayName(request.displayName);
+        product.setDescription(request.description);
+        product.setPrice(request.price);
+        product.setCurrency(request.currency);
+        product.setItemName(request.itemName);
+        product.setItemExtra(request.itemExtra);
+        product.setItemNbt(request.itemNbt);
+        product.setItemCustom(request.itemCustom);
+        product.setItemQuantity(request.itemQuantity);
+        product.setServer(request.server);
+        product.setPictureUrl(request.pictureName);
+        product.setAvailable(true);
+        productService.save(product);
+        return dtoService.toItemProductDto(product);
+    }
     @PostMapping("/buy")
     @PreAuthorize("isAuthenticated()")
     public ItemOrderDto buyItem(@RequestBody BuyItemRequest request) {
@@ -122,5 +169,9 @@ public class ItemShopController {
                                     String currency, String itemName, String itemExtra, String itemNbt,
                                     String itemCustom, int itemQuantity, String server, String pictureName) {
 
+    }
+    public record ItemProductUpdateRequest(String displayName, String description) {
+    }
+    public record ItemProductUpdatePictureRequest(String pictureName) {
     }
 }
