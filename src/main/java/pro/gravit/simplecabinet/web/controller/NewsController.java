@@ -79,7 +79,7 @@ public class NewsController {
     @PutMapping("/new")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public NewsDto create(@RequestBody NewsCreateRequest request) {
-        var news = new News();
+        News news = new News();
         news.setHeader(request.header);
         news.setMiniText(request.miniText);
         news.setText(request.text);
