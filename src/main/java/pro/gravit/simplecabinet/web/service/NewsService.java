@@ -19,7 +19,8 @@ public class NewsService {
     @Autowired
     public NewsService(NewsRepository newsRepository, NewsCommentRepository commentRepository) {
         this.newsRepository = newsRepository;
-        this.commentRepository = commentRepository;}
+        this.commentRepository = commentRepository;
+    }
 
     public Optional<News> findByIdFetchComments(Long id) {
         return newsRepository.findByIdFetchComments(id);

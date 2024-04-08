@@ -87,6 +87,7 @@ public class NewsController {
         newsService.save(news);
         return NewsDto.makeMiniNews(news);
     }
+
     public record NewsCreateRequest(String header, String miniText, String text , String pictureName ) {
     }
 

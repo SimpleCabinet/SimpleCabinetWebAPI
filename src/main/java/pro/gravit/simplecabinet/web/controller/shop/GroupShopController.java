@@ -40,9 +40,10 @@ public class GroupShopController {
         }
         return dtoService.toGroupProductDto(optional.get());
     }
-    @PostMapping("/id/{id}/picup")
+
+    @PostMapping("/id/{id}/updatepicture")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public void picup(@PathVariable long id, @RequestBody GroupShopController.GroupProductUpdatePictureRequest request) {
+    public void updatePicture(@PathVariable long id, @RequestBody GroupShopController.GroupProductUpdatePictureRequest request) {
         var optional = groupProductService.findById(id);
         if (optional.isEmpty()) {
             throw new EntityNotFoundException("Item not found");
@@ -51,32 +52,6 @@ public class GroupShopController {
         product.setPictureUrl(request.pictureName);
         groupProductService.save(product);
     }
-    @PutMapping("/id/{id}/updateall")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public GroupProductDto updateAll(@PathVariable long id, @RequestBody GroupProductCreateRequest request) {
-        var optional = groupProductService.findById(id);
-        if (optional.isEmpty()) {
-            throw new EntityNotFoundException("GroupProduct not found");
-        }
-        var product = optional.get();
-        product.setDisplayName(request.displayName);
-        product.setDescription(request.description);
-        product.setName(request.name);
-        product.setServer(request.server);
-        product.setWorld(request.world);
-        product.setContext(request.context);
-        product.setExpireDays(request.expireDays);
-        product.setLocal(request.local);
-        product.setPrice(request.price);
-        product.setCurrency(request.currency);
-        product.setStackable(request.stackable);
-        product.setLocalName(request.localName);
-        product.setPictureUrl(request.pictureName);
-        product.setAvailable(true);
-        groupProductService.save(product);
-        return dtoService.toGroupProductDto(product);
-    }
-
 
     @PostMapping("/buy")
     @PreAuthorize("isAuthenticated()")
@@ -186,6 +161,7 @@ public class GroupShopController {
 
     public record SetLimitationsRequest(LocalDateTime endDate, long count, String groupName) {
     }
+
     public record GroupProductUpdatePictureRequest(String pictureName) {
     }
 }

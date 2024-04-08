@@ -57,9 +57,7 @@ public class UserTests {
         var setup = setupController.setup();
         adminToken = setup.accessToken();
         adminPassword = setup.password();
-
         var result = authController.register(new AuthController.RegisterRequest("test", "test@example.com", "test123", null));
-
         Assertions.assertNotNull(result);
         var id = result.id();
         Assertions.assertTrue(id > 0);
@@ -126,7 +124,7 @@ public class UserTests {
     public void testRoles() {
         var result = userDetailsService.collectUserRoles(userService.getReference(1L));
         Assertions.assertEquals(result.size(), 1);
-        Assertions.assertEquals(result.getClass(), "ADMIN");
+        Assertions.assertEquals(result.getFirst(), "ADMIN");
     }
 
     @Test

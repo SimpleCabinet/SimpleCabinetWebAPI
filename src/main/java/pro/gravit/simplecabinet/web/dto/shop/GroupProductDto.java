@@ -10,6 +10,7 @@ public class GroupProductDto {
     public final String pictureUrl;
     public final long expireDays;
     public final boolean available;
+
     public GroupProductDto(long id, String server, double price, String currency, String displayName, String description, String pictureUrl, long expireDays, boolean available) {
         this.id = id;
         this.server = server;
