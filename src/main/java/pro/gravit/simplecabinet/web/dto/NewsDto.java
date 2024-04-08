@@ -10,15 +10,15 @@ public class NewsDto {
     public final String header;
     public final String miniText;
     public final String text;
-    public final String PictureName;
+    public final String pictureURL;
     public final List<NewsCommentDto> comments;
 
-    public NewsDto(long id, String header, String pictureName , String miniText, String text, List<NewsCommentDto> comments) {
+    public NewsDto(long id, String header, String pictureURL , String miniText, String text, List<NewsCommentDto> comments) {
         this.id = id;
         this.header = header;
         this.miniText = miniText;
         this.text = text;
-        this.PictureName = pictureName;
+        this.pictureURL = pictureURL;
         this.comments = comments;
     }
 
