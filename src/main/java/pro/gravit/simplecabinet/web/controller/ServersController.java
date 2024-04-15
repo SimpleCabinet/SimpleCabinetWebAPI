@@ -7,9 +7,11 @@ import org.springframework.web.bind.annotation.*;
 import pro.gravit.simplecabinet.web.dto.PageDto;
 import pro.gravit.simplecabinet.web.dto.ServerDto;
 import pro.gravit.simplecabinet.web.exception.EntityNotFoundException;
+import pro.gravit.simplecabinet.web.model.Server;
 import pro.gravit.simplecabinet.web.service.ServerService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/servers")
@@ -17,11 +19,24 @@ public class ServersController {
     @Autowired
     private ServerService service;
 
+
     @PostMapping("/new")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ServerDto create(@RequestBody CreateServerRequest request) {
-        var server = service.create(request.name(), request.displayName());
-        return new ServerDto(server);
+        Optional<Server> existingServerOptional = service.findByName(request.name());
+
+        if (existingServerOptional.isPresent()) {
+            Server existingServer = existingServerOptional.get();
+            existingServer.setName(request.name);
+            existingServer.setDisplayName(request.displayName);
+            service.save(existingServer);
+            return new ServerDto(existingServer);
+        } else {
+            Server newServer = new Server();
+            newServer.setName(request.name);
+            newServer.setDisplayName(request.displayName);
+            service.save(newServer);
+            return new ServerDto(newServer);
+        }
     }
 
     @GetMapping("/id/{serverId}")
