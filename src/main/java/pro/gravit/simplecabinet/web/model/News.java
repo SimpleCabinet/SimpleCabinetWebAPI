@@ -1,6 +1,7 @@
 package pro.gravit.simplecabinet.web.model;
 
 import jakarta.persistence.*;
+import pro.gravit.simplecabinet.web.dto.NewsCommentDto;
 
 import java.util.List;
 
@@ -36,6 +37,7 @@ public class News {
     }
 
     public String getPicture () {
+
         return pictureURL;
     }
 

@@ -25,7 +25,7 @@ public class NewsController {
     @GetMapping("/page/{pageId}")
     public PageDto<NewsDto> getPage(@PathVariable int pageId) {
         var list = newsService.findAll(PageRequest.of(pageId, 10, Sort.Direction.ASC, "id"));
-        return new PageDto<>(list.map(NewsDto::makeMiniNews));
+        return new PageDto<>(list.map(newsService::toMiniNewsWithPictureUrl));
     }
 
     @GetMapping("/id/{newsId}")
@@ -34,10 +34,10 @@ public class NewsController {
         if (news.isEmpty()) {
             throw new EntityNotFoundException("News not found");
         }
-        return NewsDto.makeFullNews(news.get());
+        return newsService.toNewsWithPictureUrl(news.get());
     }
 
-    @PostMapping("/id/{newsId}/update")
+    @PutMapping("/id/{newsId}/update")
     public void updateById(@PathVariable long newsId, @RequestBody NewsCreateRequest request) {
         var newsOptional = newsService.findByIdFetchComments(newsId);
         if (newsOptional.isEmpty()) {
@@ -47,8 +47,7 @@ public class NewsController {
         news.setHeader(request.header);
         news.setMiniText(request.miniText);
         news.setText(request.text);
-        news.setPicture(request.pictureName);
-        newsService.save(news);
+        news.setPicture(request.pictureURL);
     }
 
     @DeleteMapping("/id/{newsId}/comment/{commentId}")
@@ -83,12 +82,12 @@ public class NewsController {
         news.setHeader(request.header);
         news.setMiniText(request.miniText);
         news.setText(request.text);
-        news.setPicture(request.pictureName);
+        news.setPicture(request.pictureURL);
         newsService.save(news);
-        return NewsDto.makeMiniNews(news);
+        return newsService.toMiniNewsWithPictureUrl(news);
     }
 
-    public record NewsCreateRequest(String header, String miniText, String text , String pictureName ) {
+    public record NewsCreateRequest(String header, String miniText, String text , String pictureURL ) {
     }
 
     public record NewsCommentCreateRequest(String text) {
