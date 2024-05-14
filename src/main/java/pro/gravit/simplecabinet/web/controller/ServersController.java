@@ -64,7 +64,6 @@ public class ServersController {
     }
 
     @PostMapping("/name/{name}/ping")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public void pingByName(@PathVariable String name, @RequestBody PingRequest request) {
         service.ping(name, request.online(), request.maxOnline(), request.tps(), request.users());
     }
