@@ -58,6 +58,11 @@ public class DtoService {
     }
 
     @Transactional
+    public UserDto.UserUUID toUsernameUuid(User user) {
+        return new UserDto.UserUUID(user.getUsername(),user.getUuid());
+    }
+
+    @Transactional
     public UserDto toPrivateUserDto(User user) {
         var groups = userService.getUserGroups(user);
         var groupsDto = groups.stream().map(UserGroupDto::new).collect(Collectors.toList());

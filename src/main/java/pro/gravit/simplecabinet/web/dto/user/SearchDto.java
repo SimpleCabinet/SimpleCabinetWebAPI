@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class UserDto {
+public class SearchDto {
     public final long id;
     public final String username;
     public final UUID uuid;
@@ -19,7 +19,7 @@ public class UserDto {
 
     public final Map<String, String> permissions;
 
-    public UserDto(long id, String username, UUID uuid, User.Gender gender, String status, LocalDateTime registrationDate, List<UserGroupDto> groups, Map<String, UserTexture> assets, Map<String, String> permissions) {
+    public SearchDto(long id, String username, UUID uuid, User.Gender gender, String status, LocalDateTime registrationDate, List<UserGroupDto> groups, Map<String, UserTexture> assets, Map<String, String> permissions) {
         this.id = id;
         this.username = username;
         this.uuid = uuid;

@@ -1,5 +1,6 @@
 package pro.gravit.simplecabinet.web.controller;
 
+import org.eclipse.angus.mail.imap.protocol.ID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -11,10 +12,7 @@ import pro.gravit.simplecabinet.web.dto.user.UserGroupDto;
 import pro.gravit.simplecabinet.web.exception.EntityNotFoundException;
 import pro.gravit.simplecabinet.web.model.user.UserGroup;
 import pro.gravit.simplecabinet.web.service.DtoService;
-import pro.gravit.simplecabinet.web.service.user.HardwareIdService;
-import pro.gravit.simplecabinet.web.service.user.UserAssetService;
-import pro.gravit.simplecabinet.web.service.user.UserGroupService;
-import pro.gravit.simplecabinet.web.service.user.UserService;
+import pro.gravit.simplecabinet.web.service.user.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,6 +22,8 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/users")
 public class UserController {
+    @Autowired
+    private SerchUserService search;
     @Autowired
     private UserService service;
     @Autowired
@@ -145,6 +145,12 @@ public class UserController {
         return dtoService.toPublicUserDto(optional.get());
     }
 
+    @GetMapping("/banname/{name}")
+    public UserDto.UserUUID getByUsername(@PathVariable String name) {
+       var  findUuid = service.findByUsername(name);
+        return dtoService.toUsernameUuid(findUuid.get());
+    }
+
     @GetMapping("/uuid/{uuid}")
     public UserDto getByUUID(@PathVariable UUID uuid, @RequestParam boolean assets) {
         var optional = assets ? service.findByUuidFetchAssets(uuid) : service.findByUUID(uuid);
@@ -153,6 +159,44 @@ public class UserController {
         }
         return dtoService.toPublicUserDto(optional.get());
     }
+
+    @GetMapping("/banuuid/{uuidString}")
+    public UserDto.UserUUID getByUUID(@PathVariable String  uuidString) {
+        UUID uuid = UUID.fromString(uuidString.replaceFirst("(\\p{XDigit}{8})(\\p{XDigit}{4})(\\p{XDigit}{4})(\\p{XDigit}{4})(\\p{XDigit}+)", "$1-$2-$3-$4-$5"));
+        var  findUuid = service.findByUUID(uuid);
+        return dtoService.toUsernameUuid(findUuid.get());
+    }
+
+    @GetMapping("/search/{data}")
+    public PageDto<UserDto> searchByData(@PathVariable String data) {
+        try {
+            UUID uuid = UUID.fromString(data);
+            var page = PageRequest.of(0, 10);
+            var list = search.findByUuidFetchAssets(uuid,page);
+            if (list.isEmpty()) {
+                throw new EntityNotFoundException("User not found");
+            }
+            return new PageDto<>(list.map(dtoService::toMiniUserDto));
+
+        } catch (Exception e) {
+            if (data.contains("@")) {
+                var page = PageRequest.of(0, 10);
+                var list = search.findByEmail(data, page);
+                if (list.isEmpty()) {
+                    throw new EntityNotFoundException("User not found");
+                }
+                return new PageDto<>(list.map(dtoService::toMiniUserDto));
+            } else {
+                var page = PageRequest.of(0, 10);
+                var list = search.findByUsernameFetchAssets(data, page);
+                if (list.isEmpty()) {
+                    throw new EntityNotFoundException("User not found");
+                }
+                return new PageDto<>(list.map(dtoService::toMiniUserDto));
+            }
+        }
+    }
+
 
     @GetMapping("/page/{pageId}")
     public PageDto<UserDto> getPage(@PathVariable int pageId) {
