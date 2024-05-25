@@ -29,4 +29,5 @@ module simplecabinet {
     requires io.hypersistence.utils.hibernate.type;
     requires org.hibernate.orm.core;
     requires jakarta.mail;
+    requires spring.webmvc;
 }
