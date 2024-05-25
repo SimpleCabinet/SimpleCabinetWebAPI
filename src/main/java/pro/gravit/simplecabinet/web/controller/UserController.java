@@ -167,19 +167,19 @@ public class UserController {
         return dtoService.toUsernameUuid(findUuid.get());
     }
 
-    @GetMapping("/search/{data}")
-    public PageDto<UserDto> searchByData(@PathVariable String data) {
+    @GetMapping("/search/{data}/{pageId}")
+    public PageDto<UserDto> searchByData(@PathVariable String data, @PathVariable int pageId ) {
 
-                var page = PageRequest.of(0, 10);
+                var page = PageRequest.of(pageId, 10);
                 var list = search.findByUsernameFetchAssets(data, page);
                 if (list.isEmpty()) {
                     throw new EntityNotFoundException("User not found");
                 }
                 return new PageDto<>(list.map(dtoService::toMiniUserDto));
             }
-    @GetMapping("/search/email/{data}")
-    public PageDto<UserDto> searchByEmail(@PathVariable String data) {
-        var page = PageRequest.of(0, 10);
+    @GetMapping("/search/email/{data}/{pageId}")
+    public PageDto<UserDto> searchByEmail(@PathVariable String data,@PathVariable int pageId ) {
+        var page = PageRequest.of(pageId, 10);
         var list = search.findByEmail(data, page);
         if (list.isEmpty()) {
             throw new EntityNotFoundException("User not found");
