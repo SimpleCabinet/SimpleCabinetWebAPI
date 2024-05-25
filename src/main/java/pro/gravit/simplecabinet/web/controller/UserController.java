@@ -169,24 +169,7 @@ public class UserController {
 
     @GetMapping("/search/{data}")
     public PageDto<UserDto> searchByData(@PathVariable String data) {
-        try {
-            UUID uuid = UUID.fromString(data);
-            var page = PageRequest.of(0, 10);
-            var list = search.findByUuidFetchAssets(uuid,page);
-            if (list.isEmpty()) {
-                throw new EntityNotFoundException("User not found");
-            }
-            return new PageDto<>(list.map(dtoService::toMiniUserDto));
 
-        } catch (Exception e) {
-            if (data.contains("@")) {
-                var page = PageRequest.of(0, 10);
-                var list = search.findByEmail(data, page);
-                if (list.isEmpty()) {
-                    throw new EntityNotFoundException("User not found");
-                }
-                return new PageDto<>(list.map(dtoService::toMiniUserDto));
-            } else {
                 var page = PageRequest.of(0, 10);
                 var list = search.findByUsernameFetchAssets(data, page);
                 if (list.isEmpty()) {
@@ -194,9 +177,15 @@ public class UserController {
                 }
                 return new PageDto<>(list.map(dtoService::toMiniUserDto));
             }
-        }
+    @GetMapping("/search/email/{data}")
+    public PageDto<UserDto> searchByEmail(@PathVariable String data) {
+        var page = PageRequest.of(0, 10);
+        var list = search.findByEmail(data, page);
+        if (list.isEmpty()) {
+            throw new EntityNotFoundException("User not found");
+            }
+        return new PageDto<>(list.map(dtoService::toMiniUserDto));
     }
-
 
     @GetMapping("/page/{pageId}")
     public PageDto<UserDto> getPage(@PathVariable int pageId) {

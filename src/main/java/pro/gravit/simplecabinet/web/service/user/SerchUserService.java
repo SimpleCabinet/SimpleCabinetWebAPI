@@ -24,10 +24,6 @@ public class SerchUserService {
         return repository.findByUsernameFetchAssets(username, pageable);
     }
 
-    public Page<User> findByUuidFetchAssets(UUID uuid,Pageable pageable) {
-        return repository.findByUuidFetchAssets(uuid, pageable);
-    }
-
     public Page<User> findByEmail(String email,Pageable pageable) {
 
         return repository.findByEmail(email,pageable);

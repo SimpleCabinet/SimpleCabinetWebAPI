@@ -14,9 +14,9 @@ public interface UserSearchRepository extends PagingAndSortingRepository<User, U
     @Query("select u from User u where u.username ilike %:username%")
     Page<User> findByUsernameFetchAssets(String username, Pageable pageable);
 
-    @EntityGraph(attributePaths = {"assets"})
-    @Query("select u from User u where u.uuid = :uuid")
-    Page<User> findByUuidFetchAssets(UUID uuid,Pageable pageable);
+    //@EntityGraph(attributePaths = {"assets"})
+   // @Query("select u from User u where u.uuid = :uuid")
+   // Page<User> findByUuidFetchAssets(UUID uuid,Pageable pageable);
 
     @EntityGraph(attributePaths = {"assets"})
     @Query("select u from User u where u.email ilike %:Email%")
