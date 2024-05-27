@@ -9,12 +9,11 @@ import pro.gravit.simplecabinet.web.repository.shop.GroupSearchRepository;
 
 @Service
 public class GroupSearchService {
+
     @Autowired
     private GroupSearchRepository repository;
 
     public Page<GroupProduct> findByDisplayName(String localName,Pageable pageable) {
         return repository.findByLocalName(localName, pageable);
     }
-
-
 }

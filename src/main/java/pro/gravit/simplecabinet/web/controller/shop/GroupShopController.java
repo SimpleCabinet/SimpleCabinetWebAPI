@@ -38,7 +38,6 @@ public class GroupShopController {
 
     @GetMapping("/search/{data}/{pageId}")
     public PageDto<GroupProductDto> searchByData(@PathVariable String data, @PathVariable int pageId ) {
-
         var page = PageRequest.of(pageId, 10);
         var list = searchsr.findByDisplayName(data, page);
         if (list.isEmpty()) {

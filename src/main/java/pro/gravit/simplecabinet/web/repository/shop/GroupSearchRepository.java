@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import pro.gravit.simplecabinet.web.model.shop.GroupProduct;
 
 public interface GroupSearchRepository extends JpaRepository<GroupProduct, Long> {
+
     @Query("SELECT gp FROM GroupProduct gp WHERE gp.displayName ilike %:displayName%")
     Page<GroupProduct> findByLocalName(@Param("displayName") String localName,Pageable pageable);
 }

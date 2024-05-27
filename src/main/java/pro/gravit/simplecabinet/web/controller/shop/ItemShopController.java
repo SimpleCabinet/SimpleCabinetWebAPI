@@ -36,7 +36,6 @@ public class ItemShopController {
 
     @GetMapping("/search/{data}/{pageId}")
     public PageDto<ItemProductDto> searchByData(@PathVariable String data, @PathVariable int pageId ) {
-
         var page = PageRequest.of(pageId, 10);
         var list = searchit.findByDisplayName(data, page);
         if (list.isEmpty()) {
