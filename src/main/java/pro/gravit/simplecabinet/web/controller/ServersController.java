@@ -19,11 +19,10 @@ public class ServersController {
     @Autowired
     private ServerService service;
 
-
     @PostMapping("/new")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ServerDto create(@RequestBody CreateServerRequest request) {
         Optional<Server> existingServerOptional = service.findByName(request.name());
-
         if (existingServerOptional.isPresent()) {
             Server existingServer = existingServerOptional.get();
             existingServer.setName(request.name);
