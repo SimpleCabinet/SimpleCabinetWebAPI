@@ -28,6 +28,4 @@ module simplecabinet {
     requires spring.data.jpa;
     requires io.hypersistence.utils.hibernate.type;
     requires org.hibernate.orm.core;
-    requires jakarta.mail;
-    requires spring.webmvc;
 }
