@@ -32,6 +32,4 @@ public class NewsDto {
         return new NewsDto(news.getId(), news.getHeader(), news.getPicture(), news.getMiniText(), news.getText(),
                 news.getComments().stream().map(NewsCommentDto::new).collect(Collectors.toList()));
     }
-
-
 }
