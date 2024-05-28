@@ -15,7 +15,6 @@ public class SerchUserService {
     @Autowired
     private UserSearchRepository repository;
 
-
     public Page<User> findAll(Pageable pageable) {
         return repository.findAll(pageable);
     }
@@ -25,7 +24,6 @@ public class SerchUserService {
     }
 
     public Page<User> findByEmail(String email,Pageable pageable) {
-
         return repository.findByEmail(email,pageable);
     }
 

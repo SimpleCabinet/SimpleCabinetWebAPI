@@ -5,7 +5,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pro.gravit.simplecabinet.web.dto.PageDto;
-import pro.gravit.simplecabinet.web.dto.shop.GroupProductDto;
 import pro.gravit.simplecabinet.web.dto.shop.ItemOrderDto;
 import pro.gravit.simplecabinet.web.dto.shop.ItemProductDto;
 import pro.gravit.simplecabinet.web.exception.EntityNotFoundException;
@@ -26,7 +25,7 @@ public class ItemShopController {
     @Autowired
     private DtoService dtoService;
     @Autowired
-    private ItemSearchService searchit;
+    private ItemSearchService search;
 
     @GetMapping("/page/{pageId}")
     public PageDto<ItemProductDto> getPage(@PathVariable int pageId) {
@@ -37,7 +36,7 @@ public class ItemShopController {
     @GetMapping("/search/{data}/{pageId}")
     public PageDto<ItemProductDto> searchByData(@PathVariable String data, @PathVariable int pageId ) {
         var page = PageRequest.of(pageId, 10);
-        var list = searchit.findByDisplayName(data, page);
+        var list = search.findByDisplayName(data, page);
         if (list.isEmpty()) {
             throw new EntityNotFoundException("User not found");
         }

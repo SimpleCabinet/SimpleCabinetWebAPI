@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import pro.gravit.simplecabinet.web.dto.PageDto;
 import pro.gravit.simplecabinet.web.dto.shop.GroupOrderDto;
 import pro.gravit.simplecabinet.web.dto.shop.GroupProductDto;
-import pro.gravit.simplecabinet.web.dto.user.UserDto;
 import pro.gravit.simplecabinet.web.exception.EntityNotFoundException;
 import pro.gravit.simplecabinet.web.exception.InvalidParametersException;
 import pro.gravit.simplecabinet.web.model.shop.GroupProduct;

@@ -1,6 +1,5 @@
 package pro.gravit.simplecabinet.web.controller;
 
-import org.eclipse.angus.mail.imap.protocol.ID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -87,7 +86,6 @@ public class UserController {
         service.delete(optional.get());
     }
 
-
     @PutMapping("/id/{userId}/group/{name}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public UserGroupDto addGroup(@PathVariable long userId, @PathVariable String name, @RequestBody AddGroupRequest request) {
@@ -169,14 +167,14 @@ public class UserController {
 
     @GetMapping("/search/{data}/{pageId}")
     public PageDto<UserDto> searchByData(@PathVariable String data, @PathVariable int pageId ) {
-
                 var page = PageRequest.of(pageId, 10);
                 var list = search.findByUsernameFetchAssets(data, page);
                 if (list.isEmpty()) {
                     throw new EntityNotFoundException("User not found");
                 }
                 return new PageDto<>(list.map(dtoService::toMiniUserDto));
-            }
+    }
+
     @GetMapping("/search/email/{data}/{pageId}")
     public PageDto<UserDto> searchByEmail(@PathVariable String data,@PathVariable int pageId ) {
         var page = PageRequest.of(pageId, 10);
