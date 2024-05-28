@@ -48,6 +48,7 @@ public class NewsController {
         news.setMiniText(request.miniText);
         news.setText(request.text);
         news.setPicture(request.pictureURL);
+        newsService.save(news);
     }
 
     @DeleteMapping("/id/{newsId}/comment/{commentId}")
