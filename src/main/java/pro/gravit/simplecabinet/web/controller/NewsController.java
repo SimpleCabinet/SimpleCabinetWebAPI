@@ -37,7 +37,7 @@ public class NewsController {
         return newsService.toNewsWithPictureUrl(news.get());
     }
 
-    @PutMapping("/id/{newsId}/update")
+    @PostMapping("/id/{newsId}/update")
     public void updateById(@PathVariable long newsId, @RequestBody NewsCreateRequest request) {
         var newsOptional = newsService.findByIdFetchComments(newsId);
         if (newsOptional.isEmpty()) {

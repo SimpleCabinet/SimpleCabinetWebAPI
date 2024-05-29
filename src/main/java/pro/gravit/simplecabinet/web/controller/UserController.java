@@ -143,12 +143,6 @@ public class UserController {
         return dtoService.toPublicUserDto(optional.get());
     }
 
-    @GetMapping("/banname/{name}")
-    public UserDto.UserUUID getByUsername(@PathVariable String name) {
-       var  findUuid = service.findByUsername(name);
-        return dtoService.toUsernameUuid(findUuid.get());
-    }
-
     @GetMapping("/uuid/{uuid}")
     public UserDto getByUUID(@PathVariable UUID uuid, @RequestParam boolean assets) {
         var optional = assets ? service.findByUuidFetchAssets(uuid) : service.findByUUID(uuid);
@@ -156,13 +150,6 @@ public class UserController {
             throw new EntityNotFoundException("User not found");
         }
         return dtoService.toPublicUserDto(optional.get());
-    }
-
-    @GetMapping("/banuuid/{uuidString}")
-    public UserDto.UserUUID getByUUID(@PathVariable String  uuidString) {
-        UUID uuid = UUID.fromString(uuidString.replaceFirst("(\\p{XDigit}{8})(\\p{XDigit}{4})(\\p{XDigit}{4})(\\p{XDigit}{4})(\\p{XDigit}+)", "$1-$2-$3-$4-$5"));
-        var  findUuid = service.findByUUID(uuid);
-        return dtoService.toUsernameUuid(findUuid.get());
     }
 
     @GetMapping("/search/{data}/{pageId}")
