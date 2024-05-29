@@ -42,13 +42,4 @@ public class UserDto {
             this.metadata = metadata;
         }
     }
-    public static class UserUUID {
-        public final String uuid;
-        public final String username;
-
-        public UserUUID(String username,UUID uuid) {
-            this.username = username;
-            this.uuid= uuid.toString().replace("-", "");
-        }
-    }
 }
