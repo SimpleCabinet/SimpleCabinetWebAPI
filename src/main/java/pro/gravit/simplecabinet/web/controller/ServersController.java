@@ -22,20 +22,22 @@ public class ServersController {
     @PostMapping("/new")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ServerDto create(@RequestBody CreateServerRequest request) {
+        Server newServer = new Server();
+        newServer.setName(request.name);
+        newServer.setDisplayName(request.displayName);
+        service.save(newServer);
+        return new ServerDto(newServer);
+
+    }
+    @PostMapping("/update")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ServerDto update(@RequestBody UpdateServerRequest request) {
         Optional<Server> existingServerOptional = service.findByName(request.name());
-        if (existingServerOptional.isPresent()) {
-            Server existingServer = existingServerOptional.get();
-            existingServer.setName(request.name);
-            existingServer.setDisplayName(request.displayName);
-            service.save(existingServer);
-            return new ServerDto(existingServer);
-        } else {
-            Server newServer = new Server();
-            newServer.setName(request.name);
-            newServer.setDisplayName(request.displayName);
-            service.save(newServer);
-            return new ServerDto(newServer);
-        }
+        Server serverUpdate = existingServerOptional.get();
+        serverUpdate.setName(request.name);
+        serverUpdate.setDisplayName(request.displayName);
+        service.save(serverUpdate);
+        return new ServerDto(serverUpdate);
     }
 
     @GetMapping("/id/{serverId}")
@@ -79,6 +81,9 @@ public class ServersController {
     }
 
     public record CreateServerRequest(String name, String displayName) {
+
+    }
+    public record UpdateServerRequest(String name, String displayName) {
 
     }
 }
